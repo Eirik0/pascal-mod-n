@@ -1,5 +1,4 @@
 # Pascal's Triangle (mod n)
-
 Pascal's triangle is a truly beautiful structure; elegant yet profound.
 
 ```
@@ -14,6 +13,14 @@ Pascal's triangle is a truly beautiful structure; elegant yet profound.
 When considering the divisibility of its elements interesting patterns emerge: for example, on row p (where p is prime), each element, excluding the first and the last, is divisible by p itself! Pascal's triangle is also fractal in nature; if one highlights only the even elements, when viewing 2<sup>n</sup> rows, the larger n is, the more closely it resembles the Sierpinski Triangle.
 
 This program aims to elicit some of that beauty by calculating its elements and then highlighting those elements based on their values modulo some integer.
+
+### Examples
+<p align="left">
+  <img src="images/pascal-mod-2.png">
+</p>
+<p align="left">
+  <img src="images/pascal-mod-143.png">
+</p>
 
 ### Requirements
 - **git** - For cloning

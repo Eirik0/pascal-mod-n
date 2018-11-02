@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 
 import gt.component.ComponentCreator;
+import gt.component.GameImage;
 import gt.component.GamePanel;
 import gt.component.MainFrame;
 import gt.drawable.GameState;
@@ -28,11 +29,20 @@ public class PascalMain {
         private int[][] pascalsTriangle = new int[0][];
         private int mod = 2;
 
-        int width = ComponentCreator.DEFAULT_WIDTH;
-        int height = ComponentCreator.DEFAULT_HEIGHT;
+        private GameImage triangleImage = new GameImage();
+
+        private int width = ComponentCreator.DEFAULT_WIDTH;
+        private int height = ComponentCreator.DEFAULT_HEIGHT;
 
         @Override
         public void drawOn(Graphics2D graphics) {
+            graphics.drawImage(triangleImage.getImage(), 0, 0, null);
+        }
+
+        private void redrawImage() {
+            GameImage triangleImageNew = new GameImage();
+            triangleImageNew.checkResized(width, height);
+            Graphics2D graphics = triangleImageNew.getGraphics();
             graphics.setColor(ComponentCreator.backgroundColor());
             graphics.fillRect(0, 0, width, height);
             graphics.setColor(ComponentCreator.foregroundColor());
@@ -48,6 +58,7 @@ public class PascalMain {
                     graphics.drawLine(xCoord, y, xCoord, y);
                 }
             }
+            triangleImage = triangleImageNew;
         }
 
         private static Color getColor(int nMod) {
@@ -71,10 +82,10 @@ public class PascalMain {
             //  \|\|\|
             // 0 1 2 1 0
             // ...
-            int[][] pascalsTriangleNew = new int[height][];
-            pascalsTriangleNew[0] = new int[] { 1 };
+            pascalsTriangle = new int[height][];
+            pascalsTriangle[0] = new int[] { 1 };
             for (int n = 1; n < height; ++n) {
-                int[] prevRow = pascalsTriangleNew[n - 1];
+                int[] prevRow = pascalsTriangle[n - 1];
                 int[] row = new int[n + 1];
                 for (int k = 0; k < n + 1; ++k) {
                     int left = k == 0 ? 0 : prevRow[k - 1];
@@ -85,9 +96,9 @@ public class PascalMain {
                     }
                     row[k] = element;
                 }
-                pascalsTriangleNew[n] = row;
+                pascalsTriangle[n] = row;
             }
-            pascalsTriangle = pascalsTriangleNew;
+            redrawImage();
         }
 
         @Override

@@ -1,4 +1,4 @@
-### This is a makefile for compiling the Java project game-template-example ###
+### This is a makefile for compiling the Java project pascal-mod-n ###
 
 
 # Dependencies

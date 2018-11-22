@@ -69,7 +69,8 @@ $(JAR_FILE): $(LIB_GT_JAR) $(CLASS_FILES)
 ### Create a script to run the jar ###
 # java [options] -jar filename [args]
 $(RUN_SCRIPT): $(JAR_FILE)
-	@echo $(JAVA) -jar $(JAR_FILE) > $(RUN_SCRIPT)
+	@echo $(JAVA) -jar $< > $@
+	chmod 775 $@
 
 ### Remove the jar archive, the run script, and the class files ###
 clean:

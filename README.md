@@ -28,13 +28,13 @@ This program aims to elicit some of that beauty by calculating its elements and 
 - **GNU Make** (or equivalent) - For build automation
 
 ### Installation Instructions
-To download and run this program enter the following commands in a terminal:
+To download and compile this program enter the following commands in a terminal:
 
 ```
 git clone https://github.com/Eirik0/game-template.git
 git clone https://github.com/Eirik0/pascal-mod-n.git
 cd pascal-mod-n
-make run
+make
 ```
 
 ### Usage

@@ -16,8 +16,12 @@ run_lib_gt = (cd $(LIB_GT_DIR) && $1)
 
 ### Configuration for sources file and compilation artefacts ###
 
+# The name of the project
+PROJECT_NAME = pascal-mod-n
 # The name of the jar file to create
-JAR_FILE := pascal-mod-n.jar
+JAR_FILE := $(PROJECT_NAME).jar
+# The name of the script which will run the jar
+RUN_SCRIPT = $(PROJECT_NAME).$(SCRIPT_EXTENSION)
 # The class containing `public static void main(String[] args)`
 MAIN_CLASS := pmn.main.PascalMain
 
@@ -25,15 +29,16 @@ MAIN_CLASS := pmn.main.PascalMain
 LIB_GT_JAR := $(LIB_GT_DIR)/$(LIB_GT).jar
 LIB_GT_SOURCE_DIR := ../$(LIB_GT)/$(SOURCE_DIR)
 LIB_GT_CLASS_DIR := ../$(LIB_GT)/$(CLASS_DIR)
-LIB_GT_SOURCE_FILES := $(call filter_find,$(LIB_GT_SOURCE_DIR),.java)
+LIB_GT_SOURCE_FILES := $(call filter_find,$(LIB_GT_SOURCE_DIR),.java)
+
 ### Rules ###
 
 # Define phony targets
-.PHONY: all run clean cleanall
+.PHONY: all clean cleanall
 
 ### Default rule ###
 .DEFAULT_GOAL := all
-all: $(JAR_FILE)
+all: $(RUN_SCRIPT)
 
 ### Create game-template.jar ###
 $(LIB_GT_JAR) : $(LIB_GT_SOURCE_FILES)
@@ -61,17 +66,17 @@ JARFLAGS := cef
 $(JAR_FILE): $(LIB_GT_JAR) $(CLASS_FILES)
 	$(JAR) $(JARFLAGS) $(MAIN_CLASS) $@ -C $(CLASS_DIR) . -C $(LIB_GT_CLASS_DIR) .
 
-### Run the `.jar` archive ###
+### Create a script to run the jar ###
 # java [options] -jar filename [args]
-run: $(JAR_FILE)
-	$(JAVA) -jar $(JAR_FILE)
+$(RUN_SCRIPT): $(JAR_FILE)
+	@echo $(JAVA) -jar $(JAR_FILE) > $(RUN_SCRIPT)
 
-### Remove the jar archive and the class files ###
+### Remove the jar archive, the run script, and the class files ###
 clean:
 	$(call run_lib_gt,make clean)
-	$(RM) $(JAR_FILE) $(CLASS_FILES)
+	$(RM) $(JAR_FILE) $(RUN_SCRIPT) $(CLASS_FILES)
 	
-### Remove the jar archive and all class files ###
+### Remove the jar archive, the run script, and the bin directory ###
 cleanall:
 	$(call run_lib_gt,make cleanall)
-	rm -rf $(JAR_FILE) $(CLASS_DIR)
+	$(RM) $(JAR_FILE) $(RUN_SCRIPT) $(CLASS_DIR)

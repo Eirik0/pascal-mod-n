@@ -93,8 +93,7 @@ public class PascalMain {
         }
 
         private void redrawImage() {
-            GameImage triangleImageNew = new GameImage();
-            triangleImageNew.setSize(width, height);
+            GameImage triangleImageNew = new GameImage(width, height);
             Graphics2D graphics = triangleImageNew.getGraphics();
             graphics.setColor(ComponentCreator.backgroundColor());
             graphics.fillRect(0, 0, width, height);

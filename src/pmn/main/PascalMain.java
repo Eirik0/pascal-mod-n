@@ -2,12 +2,13 @@ package pmn.main;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics2D;
 
 import gt.component.ComponentCreator;
-import gt.component.GameImage;
 import gt.component.GamePanel;
 import gt.component.MainFrame;
+import gt.gameentity.GameImageDrawer;
+import gt.gameentity.IGameImage;
+import gt.gameentity.IGraphics;
 import gt.gamestate.GameState;
 import gt.gamestate.GameStateManager;
 import gt.gamestate.UserInput;
@@ -21,8 +22,8 @@ public class PascalMain {
         GamePanel mainPanel = new GamePanel("Pascal");
         mainPanel.setPreferredSize(new Dimension(ComponentCreator.DEFAULT_WIDTH, ComponentCreator.DEFAULT_HEIGHT));
 
-        GameStateManager.setMainPanel(mainPanel);
-        GameStateManager.setGameState(new PascalGameState());
+        GameStateManager gameStateManager = mainPanel.getGameStateManager();
+        gameStateManager.setGameState(new PascalGameState(gameStateManager.getImageDrawer()));
 
         MainFrame mainFrame = new MainFrame(TITLE, mainPanel);
 
@@ -33,10 +34,16 @@ public class PascalMain {
         private int[][] pascalsTriangle = new int[0][];
         private int mod = 2;
 
-        private GameImage triangleImage = new GameImage();
+        private final GameImageDrawer imageDrawer;
+        private IGameImage triangleImage;
 
         private int width;
         private int height;
+
+        public PascalGameState(GameImageDrawer imageDrawer) {
+            this.imageDrawer = imageDrawer;
+            triangleImage = imageDrawer.newGameImage();
+        }
 
         @Override
         public void update(double dt) {
@@ -44,8 +51,8 @@ public class PascalMain {
         }
 
         @Override
-        public void drawOn(Graphics2D graphics) {
-            graphics.drawImage(triangleImage.getImage(), 0, 0, null);
+        public void drawOn(IGraphics g) {
+            imageDrawer.drawImage(g, triangleImage, 0, 0);
         }
 
         @Override
@@ -93,10 +100,9 @@ public class PascalMain {
         }
 
         private void redrawImage() {
-            GameImage triangleImageNew = new GameImage(width, height);
-            Graphics2D graphics = triangleImageNew.getGraphics();
-            graphics.setColor(ComponentCreator.backgroundColor());
-            graphics.fillRect(0, 0, width, height);
+            IGameImage triangleImageNew = imageDrawer.newGameImage(width, height);
+            IGraphics graphics = triangleImageNew.getGraphics();
+            graphics.fillRect(0, 0, width, height, ComponentCreator.backgroundColor());
             graphics.setColor(ComponentCreator.foregroundColor());
             int modTemp = mod;
             graphics.drawString("n = " + modTemp, 10, 20);
@@ -107,7 +113,7 @@ public class PascalMain {
                     int n = row[x];
                     int xCoord = (width - rowLength) / 2 + x;
                     graphics.setColor(getColor(n));
-                    drawPixel(graphics, xCoord, y);
+                    graphics.drawPixel(xCoord, y);
                 }
             }
             triangleImage = triangleImageNew;

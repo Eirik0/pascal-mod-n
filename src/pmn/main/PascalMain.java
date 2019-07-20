@@ -6,7 +6,7 @@ import java.awt.Dimension;
 import gt.component.ComponentCreator;
 import gt.component.GamePanel;
 import gt.component.MainFrame;
-import gt.gameentity.GameImageDrawer;
+import gt.gameentity.IGameImageDrawer;
 import gt.gameentity.IGameImage;
 import gt.gameentity.IGraphics;
 import gt.gamestate.GameState;
@@ -34,13 +34,13 @@ public class PascalMain {
         private int[][] pascalsTriangle = new int[0][];
         private int mod = 2;
 
-        private final GameImageDrawer imageDrawer;
+        private final IGameImageDrawer imageDrawer;
         private IGameImage triangleImage;
 
         private int width;
         private int height;
 
-        public PascalGameState(GameImageDrawer imageDrawer) {
+        public PascalGameState(IGameImageDrawer imageDrawer) {
             this.imageDrawer = imageDrawer;
             triangleImage = imageDrawer.newGameImage();
         }

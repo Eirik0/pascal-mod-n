@@ -6,12 +6,13 @@ import java.awt.Dimension;
 import gt.component.ComponentCreator;
 import gt.component.GamePanel;
 import gt.component.MainFrame;
-import gt.gameentity.IGameImageDrawer;
 import gt.gameentity.IGameImage;
+import gt.gameentity.IGameImageDrawer;
 import gt.gameentity.IGraphics;
 import gt.gamestate.GameState;
 import gt.gamestate.GameStateManager;
 import gt.gamestate.UserInput;
+import gt.util.EMath;
 
 public class PascalMain {
     private static final String TITLE = "Pascal's Triangle (mod n)";
@@ -37,8 +38,8 @@ public class PascalMain {
         private final IGameImageDrawer imageDrawer;
         private IGameImage triangleImage;
 
-        private int width;
-        private int height;
+        private double width;
+        private double height;
 
         public PascalGameState(IGameImageDrawer imageDrawer) {
             this.imageDrawer = imageDrawer;
@@ -56,7 +57,7 @@ public class PascalMain {
         }
 
         @Override
-        public void setSize(int width, int height) {
+        public void setSize(double width, double height) {
             this.width = width;
             this.height = height;
             recreateTriangle();
@@ -80,7 +81,7 @@ public class PascalMain {
             //  \|\|\|
             // 0 1 2 1 0
             // ...
-            pascalsTriangle = new int[height][];
+            pascalsTriangle = new int[EMath.round(height)][];
             pascalsTriangle[0] = new int[] { 1 };
             for (int n = 1; n < height; ++n) {
                 int[] prevRow = pascalsTriangle[n - 1];
@@ -111,7 +112,7 @@ public class PascalMain {
                 int rowLength = row.length;
                 for (int x = 0; x < rowLength; ++x) {
                     int n = row[x];
-                    int xCoord = (width - rowLength) / 2 + x;
+                    int xCoord = (EMath.round(width) - rowLength) / 2 + x;
                     graphics.setColor(getColor(n));
                     graphics.drawPixel(xCoord, y);
                 }

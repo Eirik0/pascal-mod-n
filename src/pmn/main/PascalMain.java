@@ -1,7 +1,6 @@
 package pmn.main;
 
 import java.awt.Color;
-import java.awt.Dimension;
 
 import gt.component.ComponentCreator;
 import gt.component.GamePanel;
@@ -18,15 +17,11 @@ public class PascalMain {
     private static final String TITLE = "Pascal's Triangle (mod n)";
 
     public static void main(String[] args) {
-        ComponentCreator.setCrossPlatformLookAndFeel();
-
-        GamePanel mainPanel = new GamePanel("Pascal");
-        mainPanel.setPreferredSize(new Dimension(ComponentCreator.DEFAULT_WIDTH, ComponentCreator.DEFAULT_HEIGHT));
+        MainFrame mainFrame = new MainFrame(TITLE);
+        GamePanel mainPanel = mainFrame.getGamePanel();
 
         GameStateManager gameStateManager = mainPanel.getGameStateManager();
         gameStateManager.setGameState(new PascalGameState(gameStateManager.getImageDrawer()));
-
-        MainFrame mainFrame = new MainFrame(TITLE, mainPanel);
 
         mainFrame.show();
     }
